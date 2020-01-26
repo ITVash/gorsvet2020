@@ -2,11 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
-import { UserControllers, CoupControllers } from '../controllers'
+import { UserControllers, CoupControllers, SupportControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
 const coupCtrl = new CoupControllers()
+const supportCtrl = new SupportControllers()
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
@@ -35,5 +36,13 @@ const CreateRoutes = (app: express.Express) => {
   app.post('/api/coup', verifyToken, coupCtrl.create)
   app.put('/api/coup/:id', verifyToken, coupCtrl.update)
   app.delete('/api/coup/:id', verifyToken, coupCtrl.delete)
+
+  /**
+   * Support Routers
+   */
+  app.get('/api/support', verifyToken, supportCtrl.show)
+  app.post('/api/support', verifyToken, supportCtrl.create)
+  app.put('/api/support/:id', verifyToken, supportCtrl.update)
+  app.delete('/api/support/:id', verifyToken, supportCtrl.delete)
 }
 export default CreateRoutes
